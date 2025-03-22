@@ -1,34 +1,30 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
+import { LogIn, User, Lock, AlertCircle } from 'lucide-react';
 import BhashaShutraLogo from '../components/Logo';
 
 export function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  
-  // Get the return URL from location state, or default to home page
-  const from = (location.state as any)?.from?.pathname || '/';
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     
-    if (!email || !password) {
-      setError('Please enter both email and password');
+    if (!username || !password) {
+      setError('Please enter both username and password');
       return;
     }
     
     try {
-      await login(email, password);
-      navigate(from, { replace: true });
+      await login(username, password);
+      navigate("/file", { replace: true });
     } catch (err) {
-      setError('Invalid email or password');
+      setError('Invalid username or password');
     }
   };
   
@@ -40,7 +36,7 @@ export function Login() {
             <div className="flex justify-center mb-4">
               <BhashaShutraLogo width={60} height={60} />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
               Welcome to BhashaShutra
             </h2>
             <p className="mt-3 text-gray-600">
@@ -58,23 +54,23 @@ export function Login() {
           <form className="space-y-6 animate-fade-in" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div>
-                <label htmlFor="email-address" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email address
+                <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+                  Username
                 </label>
                 <div className="relative rounded-md shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
+                    <User className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
-                    id="email-address"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
+                    id="username"
+                    name="username"
+                    type="text"
+                    autoComplete="username"
                     required
                     className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-600 focus:shadow-sm sm:text-sm transition-all"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
               </div>
@@ -113,12 +109,6 @@ export function Login() {
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                   Remember me
                 </label>
-              </div>
-
-              <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
-                  Forgot password?
-                </a>
               </div>
             </div>
 

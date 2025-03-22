@@ -1,17 +1,23 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { ApiPost, setAuthToken } from '../utils/api';
 
 interface User {
-  id: string;
   email: string;
-  name?: string;
+  username: string;
+}
+
+interface AuthResponse {
+  email: string;
+  username: string;
+  access_token: string;
 }
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, name: string) => Promise<void>;
+  login: (username: string, password: string) => Promise<void>;
+  signup: (email: string, password: string, username: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -30,31 +36,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in (from localStorage)
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    const token = localStorage.getItem('token');
+    
+    if (storedUser && token) {
       setUser(JSON.parse(storedUser));
+      setAuthToken(token);
     }
     setIsLoading(false);
   }, []);
 
-  // Login function - in a real app, this would call your API
-  const login = async (email: string, password: string) => {
+  const login = async (username: string, password: string) => {
     setIsLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await ApiPost<AuthResponse>('/auth/login', {
+        username,
+        password
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
       
-      // For demo purposes, just create a mock user
-      const userData: User = {
-        id: '1', 
-        email: email,
-        name: email.split('@')[0] // Extract name from email for demo
-      };
-      
+      const userData = {
+        username: response.username,
+        email: response.email,
+      }
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('token', response.access_token);
+      setAuthToken(response.access_token);
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -63,23 +75,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Signup function
-  const signup = async (email: string, password: string, name: string) => {
+  const signup = async (email: string, password: string, username: string) => {
     setIsLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo purposes, create a mock user
-      const userData: User = {
-        id: '1',
+      const response = await ApiPost<AuthResponse>('/auth/signup', {
         email,
-        name
-      };
+        password,
+        username
+      });
       
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
+     console.log(response);
+     
     } catch (error) {
       console.error('Signup error:', error);
       throw error;
@@ -88,10 +95,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Logout function
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    setAuthToken(null);
   };
 
   const value = {

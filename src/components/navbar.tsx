@@ -75,7 +75,7 @@ export function Navbar() {
                     >
                       <span className="sr-only">Open user menu</span>
                       <div className="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center text-white">
-                        {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                        {user?.username ? user.username.charAt(0).toUpperCase() : 'U'}
                       </div>
                     </button>
                   </div>
@@ -89,7 +89,7 @@ export function Navbar() {
                       <div className="border-t border-gray-100"></div>
                       <button
                         onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                       >
                         <LogOut className="mr-3 h-4 w-4 text-gray-400" />
                         Sign out
@@ -192,11 +192,11 @@ export function Navbar() {
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0">
                   <div className="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white">
-                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                    {user?.username ? user.username.charAt(0).toUpperCase() : 'U'}
                   </div>
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-gray-800">{user?.name}</div>
+                  <div className="text-base font-medium text-gray-800">{user?.username}</div>
                   <div className="text-sm font-medium text-gray-500">{user?.email}</div>
                 </div>
               </div>

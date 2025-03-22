@@ -34,7 +34,7 @@ export function Signup() {
     
     try {
       await signup(email, password, name);
-      navigate('/');
+      navigate('/login');
     } catch (err) {
       setError('Failed to create an account');
     }
@@ -48,7 +48,7 @@ export function Signup() {
             <div className="flex justify-center mb-4">
               <BhashaShutraLogo width={60} height={60} />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
               Join BhashaShutra
             </h2>
             <p className="mt-3 text-gray-600">

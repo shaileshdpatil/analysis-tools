@@ -223,11 +223,6 @@ export function Home() {
                   Count words, find most/least repeated words, and analyze word length
                 </p>
               </div>
-              <div className="bg-gray-50 px-6 py-4">
-                <Link to="/raw" className="text-base font-medium text-indigo-600 hover:text-indigo-500 flex items-center justify-center">
-                  Try it now <ChevronRight className="ml-1 h-5 w-5" />
-                </Link>
-              </div>
             </div>
 
             <div className="bg-white overflow-hidden shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-2 hover:bg-indigo-50 flex flex-col">
@@ -241,11 +236,6 @@ export function Home() {
                 <p className="mt-3 text-base text-gray-600 flex-grow text-center">
                   Convert case, remove punctuation, clean whitespace, and replace text
                 </p>
-              </div>
-              <div className="bg-gray-50 px-6 py-4">
-                <Link to="/raw" className="text-base font-medium text-indigo-600 hover:text-indigo-500 flex items-center justify-center">
-                  Try it now <ChevronRight className="ml-1 h-5 w-5" />
-                </Link>
               </div>
             </div>
 
@@ -261,11 +251,6 @@ export function Home() {
                   Tokenization, stemming, lemmatization, and POS tagging
                 </p>
               </div>
-              <div className="bg-gray-50 px-6 py-4">
-                <Link to="/raw" className="text-base font-medium text-indigo-600 hover:text-indigo-500 flex items-center justify-center">
-                  Try it now <ChevronRight className="ml-1 h-5 w-5" />
-                </Link>
-              </div>
             </div>
 
             <div className="bg-white overflow-hidden shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-2 hover:bg-indigo-50 flex flex-col">
@@ -279,11 +264,6 @@ export function Home() {
                 <p className="mt-3 text-base text-gray-600 flex-grow text-center">
                   Generate word clouds, frequency plots, and sentiment graphs
                 </p>
-              </div>
-              <div className="bg-gray-50 px-6 py-4">
-                <Link to="/file" className="text-base font-medium text-indigo-600 hover:text-indigo-500 flex items-center justify-center">
-                  Try it now <ChevronRight className="ml-1 h-5 w-5" />
-                </Link>
               </div>
             </div>
           </div>
