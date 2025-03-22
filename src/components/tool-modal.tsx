@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { 
   basicTools, 
   advancedTools, 
   visualizationTools, 
   sentimentTools,
-  Tool
 } from '../data/tools';
+import { ApiPost } from '../utils/api';
 
 interface ToolModalProps {
   toolId: string;
-  content: string;
+  content: any;
   onBack: () => void;
   category: 'basic' | 'advanced' | 'visualization' | 'sentiment';
+}
+
+interface ToolResponse {
+  result: string;
 }
 
 export function ToolModal({ toolId, content, onBack, category }: ToolModalProps) {
@@ -22,8 +26,6 @@ export function ToolModal({ toolId, content, onBack, category }: ToolModalProps)
   const [inputValue, setInputValue] = useState('');
   const [processingStarted, setProcessingStarted] = useState(false);
 
-  console.log(category);
-  
   const allTools = [
     ...basicTools, 
     ...advancedTools, 
@@ -47,7 +49,6 @@ export function ToolModal({ toolId, content, onBack, category }: ToolModalProps)
     );
   }
 
-  // Function to process text based on tool
   const processText = async () => {
     if (processingStarted) return;
     
@@ -56,60 +57,59 @@ export function ToolModal({ toolId, content, onBack, category }: ToolModalProps)
     setError(null);
     
     try {
-      // Here you would normally call your API with the content and tool action
-      // For now we'll simulate API call with setTimeout
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const endpoint = typeof content === 'string' ? 'text' : 'file';
+      const payload = typeof content === 'string' 
+        ? { text: content }
+        : { file: content };
+
+      const response = await ApiPost<ToolResponse>(`${category}/${toolId}/${endpoint}`, payload, {
+        headers: {
+          'Content-Type': endpoint === 'text' ? 'application/json' : 'multipart/form-data',
+          'Accept': 'application/json'
+        }
+      });
       
-      // Mock results based on tool action
       let processedResult = '';
       
       switch (tool.action) {
-        case 'count-words':
-          processedResult = `Total words: ${content.trim().split(/\s+/).filter(Boolean).length}`;
-          break;
-        case 'count-punctuation':
-          processedResult = `Total punctuation marks: ${content.match(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g)?.length || 0}`;
-          break;
-        case 'most-repeated-word':
-          const wordFrequency = content
-            .toLowerCase()
-            .replace(/[^\w\s]/g, '')
-            .split(/\s+/)
-            .filter(word => word.length > 2)
-            .reduce((acc, word) => {
-              acc[word] = (acc[word] || 0) + 1;
-              return acc;
-            }, {} as Record<string, number>);
+        case 'detailed-analysis':
+          const analysisData = response.result as any;
+          const overall = analysisData.overall;
+          const sentences = analysisData.sentences;
           
-          const mostRepeated = Object.entries(wordFrequency)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 1);
-          
-          processedResult = mostRepeated.length ? 
-            `Most repeated word: "${mostRepeated[0][0]}" (${mostRepeated[0][1]} times)` : 
-            'No repeated words found';
+          processedResult = `Overall Analysis:\n` +
+            `Sentiment: ${overall.sentiment}\n` +
+            `Polarity: ${overall.polarity}\n` +
+            `Subjectivity: ${overall.subjectivity}\n\n` +
+            `Statistics:\n` +
+            `Total Sentences: ${analysisData.sentence_count}\n` +
+            `Positive Sentences: ${analysisData.positive_sentences}\n` +
+            `Negative Sentences: ${analysisData.negative_sentences}\n` +
+            `Neutral Sentences: ${analysisData.neutral_sentences}\n\n` +
+            `Sentence Analysis:\n` +
+            sentences.map((s: any) => 
+              `text: "${s.text}"\n` +
+              `Sentiment: ${s.sentiment}\n` +
+              `Polarity: ${s.polarity}\n` +
+              `Subjectivity: ${s.subjectivity}`
+            ).join('\n\n');
           break;
-        case 'to-lowercase':
-          processedResult = content.toLowerCase();
+        case 'analyze':
+          const sentimentData = response.result as any;
+          processedResult = `Sentiment: ${sentimentData.sentiment}\nPolarity: ${sentimentData.polarity}\nSubjectivity: ${sentimentData.subjectivity}\nText Sample: ${sentimentData.text_sample}`;
           break;
-        case 'to-uppercase':
-          processedResult = content.toUpperCase();
+        case 'wordcloud':
+          const image_paths = response?.result ? String(response.result).trim().split(/\s+/).filter(Boolean) : [];
+          const imageHtml = image_paths.map(path => `<img src="${path}" alt="Generated wordcloud" class="w-full h-auto rounded-lg shadow-sm mb-4"/>`).join('');
+          processedResult = imageHtml;
           break;
-        case 'replace-word':
-          if (!inputValue) {
-            processedResult = 'Please enter a word to replace and its replacement (format: word:replacement)';
-          } else {
-            const [target, replacement] = inputValue.split(':');
-            if (!replacement) {
-              processedResult = 'Invalid format. Please use word:replacement';
-            } else {
-              processedResult = content.replace(new RegExp(target, 'g'), replacement);
-            }
-          }
+        case 'word_tokenizer':
+          const tokens = response?.result ? String(response.result).trim().split(/\s+/).filter(Boolean) : [];
+          processedResult = `${tokens.toString()}`;
           break;
-        // Add more cases for other tools
         default:
-          processedResult = `This functionality (${tool.action}) would be implemented via API call`;
+          const defaultResult = response?.result ? String(response.result).trim().split(/\s+/).filter(Boolean) : [];
+          processedResult = `${defaultResult.toString()}`;
       }
       
       setResult(processedResult);
@@ -121,7 +121,6 @@ export function ToolModal({ toolId, content, onBack, category }: ToolModalProps)
     }
   };
   
-  // Process text when tool is mounted
   useEffect(() => {
     if (!processingStarted && tool.action !== 'replace-word') {
       processText();
@@ -188,8 +187,17 @@ export function ToolModal({ toolId, content, onBack, category }: ToolModalProps)
         {!loading && result && (
           <div>
             <h4 className="text-md font-medium text-gray-900 mb-2">Result:</h4>
-            <div className="bg-gray-50 rounded-lg p-4 max-h-80 overflow-y-auto">
-              <pre className="text-sm text-gray-600 whitespace-pre-wrap">{result}</pre>
+            <div className="bg-gray-50 rounded-lg max-h-80 overflow-y-auto">
+              {category === 'visualization' ? (
+                <div 
+                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                  dangerouslySetInnerHTML={{ __html: result }}
+                />
+              ) : (
+                <pre className="text-sm text-gray-600 whitespace-pre-wrap" style={{ wordWrap: 'break-word' }}>
+                  {result}
+                </pre>
+              )}
             </div>
           </div>
         )}

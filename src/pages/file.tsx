@@ -12,7 +12,7 @@ export function File() {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [fileContent, setFileContent] = useState('');
+  const [fileContent, setFileContent] = useState<File | null>(null);
 
   const analysisOptions = [
     { id: 'basic', name: 'Basic Analysis', icon: FileText, description: 'Word count, character count, and readability metrics' },
@@ -24,6 +24,13 @@ export function File() {
     setError(null);
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
+      const validFileTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+
+      if (!validFileTypes.includes(selectedFile.type)) {
+        setError('Please upload a PDF, Word document, or TXT file');
+        return;
+      }
+
       if (selectedFile.size > 10 * 1024 * 1024) {
         setError('File size exceeds 10MB limit');
         return;
@@ -46,9 +53,16 @@ export function File() {
     e.preventDefault();
     setIsDragging(false);
     setError(null);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const droppedFile = e.dataTransfer.files[0];
+      const validFileTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+
+      if (!validFileTypes.includes(droppedFile.type)) {
+        setError('Please upload a PDF, Word document, or TXT file');
+        return;
+      }
+
       if (droppedFile.size > 10 * 1024 * 1024) {
         setError('File size exceeds 10MB limit');
         return;
@@ -63,28 +77,21 @@ export function File() {
       setError('Please select an analysis type and upload a file');
       return;
     }
-    
+
     setIsLoading(true);
     setError(null);
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const content = e.target?.result as string;
-      setFileContent(content || '');
-      
+
+    setFileContent(file);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setUploadSuccess(true);
+      setIsModalOpen(true);
+
       setTimeout(() => {
-        setIsLoading(false);
-        setUploadSuccess(true);
-        setIsModalOpen(true);
-        
-        // Reset success message after 3 seconds
-        setTimeout(() => {
-          setUploadSuccess(false);
-        }, 3000);
+        setUploadSuccess(false);
       }, 1500);
-    };
-    
-    reader.readAsText(file);
+    }, 1000);
   };
 
   return (
@@ -96,7 +103,7 @@ export function File() {
             <div className="mt-2 max-w-xl text-sm text-gray-500">
               <p>Upload a file and select your preferred analysis method.</p>
             </div>
-            
+
             {error && (
               <div className="mt-4 p-3 bg-red-50 rounded-md border border-red-200">
                 <div className="flex">
@@ -107,7 +114,7 @@ export function File() {
                 </div>
               </div>
             )}
-            
+
             {uploadSuccess && (
               <div className="mt-4 p-3 bg-green-50 rounded-md border border-green-200">
                 <div className="flex">
@@ -118,7 +125,7 @@ export function File() {
                 </div>
               </div>
             )}
-            
+
             <form onSubmit={handleSubmit} className="mt-5">
               <div className="space-y-6">
                 <div>
@@ -127,13 +134,13 @@ export function File() {
                     <legend className="sr-only">Analysis Type</legend>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                       {analysisOptions.map((option) => (
-                        <div 
+                        <div
                           key={option.id}
                           onClick={() => setSelectedType(option.id)}
                           className={`
                             relative rounded-lg border px-5 py-4 cursor-pointer focus:outline-none transition-all duration-200
-                            ${selectedType === option.id 
-                              ? 'bg-indigo-50 border-indigo-500 ring-2 ring-indigo-500' 
+                            ${selectedType === option.id
+                              ? 'bg-indigo-50 border-indigo-500 ring-2 ring-indigo-500'
                               : 'border-gray-300 hover:border-indigo-300'
                             }
                           `}
@@ -159,7 +166,7 @@ export function File() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Upload file</label>
-                  <div 
+                  <div
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
@@ -177,7 +184,7 @@ export function File() {
                           <p className="text-xs text-gray-500">
                             {(file.size / 1024).toFixed(2)} KB
                           </p>
-                          <button 
+                          <button
                             type="button"
                             onClick={() => setFile(null)}
                             className="mt-2 text-xs text-indigo-600 hover:text-indigo-500 underline"
@@ -199,12 +206,13 @@ export function File() {
                                 name="file-upload"
                                 type="file"
                                 className="sr-only"
+                                accept=".pdf,.doc,.docx,.txt"
                                 onChange={handleFileChange}
                               />
                             </label>
                             <p className="pl-1">or drag and drop</p>
                           </div>
-                          <p className="text-xs text-gray-500">Any file up to 10MB</p>
+                          <p className="text-xs text-gray-500">PDF, Word or TXT files up to 10MB</p>
                         </>
                       )}
                     </div>

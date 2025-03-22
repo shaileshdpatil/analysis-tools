@@ -69,7 +69,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setAuthToken(response.access_token);
     } catch (error) {
       console.error('Login error:', error);
-      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -79,14 +78,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(true);
     
     try {
-      const response = await ApiPost<AuthResponse>('/auth/signup', {
+      await ApiPost<AuthResponse>('/auth/signup', {
         email,
         password,
         username
       });
-      
-     console.log(response);
-     
     } catch (error) {
       console.error('Signup error:', error);
       throw error;

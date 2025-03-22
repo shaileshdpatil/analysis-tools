@@ -12,7 +12,7 @@ import {
 interface AnalysisModalProps {
   isOpen: boolean;
   onClose: () => void;
-  content: string;
+  content: any;
   toolCategory?: 'basic' | 'advanced' | 'visualization' | 'sentiment';
 }
 
@@ -46,30 +46,31 @@ export function AnalysisModal({
       default:
         return basicTools;
     }
-  };
+  };  
 
   const tools = getToolsByCategory();
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity duration-300">
       <div className="bg-white rounded-xl shadow-2xl max-w-5xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col">
-        {/* Header */}
         <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gradient-to-r from-indigo-600 to-purple-600">
           <h2 className="text-xl font-bold text-white flex items-center">
             {toolCategory.charAt(0).toUpperCase() + toolCategory.slice(1)} Analysis Tools
           </h2>
           <button
-            onClick={onClose}
+            onClick={()=> {
+              onClose();
+              setSelectedTool(null);
+            }}
             className="text-white hover:text-gray-200 transition-colors focus:outline-none"
           >
             <X className="h-6 w-6" />
           </button>
         </div>
         
-        {/* Content */}
         <div className="p-6 overflow-y-auto flex-grow">
           {selectedTool ? (
-            <ToolModal 
+            <ToolModal
               toolId={selectedTool}
               content={content}
               onBack={handleBackToList}
@@ -83,11 +84,13 @@ export function AnalysisModal({
           )}
         </div>
         
-        {/* Footer */}
         <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 flex justify-between">
           <p className="text-xs text-gray-500">{toolCategory.charAt(0).toUpperCase() + toolCategory.slice(1)} analysis tools for text processing</p>
           <button 
-            onClick={onClose}
+            onClick={()=>{
+              onClose();
+              setSelectedTool(null);
+            }}
             className="px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
           >
             Close

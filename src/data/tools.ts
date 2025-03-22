@@ -91,32 +91,25 @@ export const basicTools: Tool[] = [
     action: 'remove-numbers'
   },
   {
-    id: 'remove-whitespace',
+    id: 'remove-extra-whitespace',
     name: 'Remove Extra Whitespace',
     description: 'Remove unnecessary whitespace from the text',
     icon: AlignJustify,
-    action: 'remove-whitespace'
+    action: 'remove-extra-whitespace'
   },
   {
-    id: 'avg-word-length',
+    id: 'average-word-lengths',
     name: 'Find Average Word Length',
     description: 'Calculate the average length of words',
     icon: Type,
-    action: 'avg-word-length'
+    action: 'average-word-lengths'
   },
   {
-    id: 'avg-sentence-length',
+    id: 'average-sentence-length',
     name: 'Find Average Sentence Length',
     description: 'Calculate the average length of sentences',
     icon: AlignLeft,
-    action: 'avg-sentence-length'
-  },
-  {
-    id: 'replace-word',
-    name: 'Replace a Word/Phrase',
-    description: 'Replace specified words or phrases',
-    icon: Replace,
-    action: 'replace-word'
+    action: 'average-sentence-length'
   },
   {
     id: 'reverse-text',
@@ -143,114 +136,121 @@ export const basicTools: Tool[] = [
 
 export const advancedTools: Tool[] = [
   {
-    id: 'word-tokenization',
+    id: 'word_tokenizer',
     name: 'Word Tokenization',
     description: 'Split text into individual words',
     icon: Layers,
-    action: 'word-tokenization'
+    action: 'word_tokenizer'
   },
   {
-    id: 'sentence-tokenization',
+    id: 'sentence_tokenizers',
     name: 'Sentence Tokenization',
     description: 'Split text into individual sentences',
     icon: AlignLeft,
-    action: 'sentence-tokenization'
+    action: 'sentence_tokenizer'
   },
   {
-    id: 'remove-stopwords',
+    id: 'remove_stopwords',
     name: 'Remove Stopwords',
     description: 'Remove common stopwords from the text',
     icon: BadgeCheck,
-    action: 'remove-stopwords'
+    action: 'remove_stopwords'
   },
   {
-    id: 'stemming',
+    id: 'perform_stemming',
     name: 'Stemming',
     description: 'Reduce words to their root/stem form',
     icon: Bot,
-    action: 'stemming'
+    action: 'perform_stemming'
   },
   {
-    id: 'lemmatization',
+    id: 'perform_lemmatization',
     name: 'Lemmatization',
     description: 'Reduce words to their base or dictionary form',
     icon: Brain,
-    action: 'lemmatization'
+    action: 'perform_lemmatization'
   },
   {
-    id: 'pos-tagging',
+    id: 'pos_tagging',
     name: 'POS Tagging',
     description: 'Mark words with their part of speech',
     icon: Anchor,
-    action: 'pos-tagging'
+    action: 'pos_tagging'
   },
   {
-    id: 'tf-idf',
+    id: 'tfidf_vectorization',
     name: 'TF-IDF Vectorization',
     description: 'Calculate term frequency-inverse document frequency',
     icon: FileBarChart,
-    action: 'tf-idf'
+    action: 'tfidf_vectorization'
   },
   {
-    id: 'text-summarization',
+    id: 'text_summarization',
     name: 'Text Summarization',
-    description: 'Generate a summary of the text',
+    description: 'Generate a concise summary of the text',
     icon: BookOpen,
-    action: 'text-summarization'
+    action: 'text_summarization'
   },
   {
-    id: 'language-detection',
+    id: 'language_detection',
     name: 'Language Detection',
     description: 'Detect the language of the text',
     icon: Languages,
-    action: 'language-detection'
+    action: 'language_detection'
   },
   {
-    id: 'spell-checking',
+    id: 'spell_check_and_grammar',
     name: 'Spell Checking & Grammar Correction',
     description: 'Identify and correct spelling and grammar errors',
     icon: CheckCheck,
-    action: 'spell-checking'
+    action: 'spell_check_and_grammar'
   }
 ];
 
 export const visualizationTools: Tool[] = [
   {
-    id: 'word-cloud',
+    id: 'wordcloud',
     name: 'Generate Word Cloud',
     description: 'Create a word cloud visualization',
     icon: Cloud,
-    action: 'word-cloud'
+    action: 'wordcloud'
   },
   {
-    id: 'word-frequency',
+    id: 'frequency',
     name: 'Word Frequency Plot',
     description: 'Plot word frequency distribution',
     icon: BarChart,
-    action: 'word-frequency'
+    action: 'frequency'
   },
   {
-    id: 'sentiment-graph',
+    id: 'sentiment',
     name: 'Sentiment Analysis Distribution Graph',
     description: 'Visualize sentiment distribution in the text',
     icon: Heart,
-    action: 'sentiment-graph'
+    action: 'sentiment'
   },
   {
-    id: 'tf-idf-heatmap',
+    id: 'tfidf',
     name: 'TF-IDF Heatmap',
     description: 'Create a heatmap of TF-IDF values',
     icon: CloudSun,
-    action: 'tf-idf-heatmap'
+    action: 'tfidf'
   }
 ];
 
 export const sentimentTools: Tool[] = [
   {
-    id: 'sentiment-analysis',
+    id: 'analyze',
     name: 'Perform Sentiment Analysis',
     description: 'Analyze the sentiment of the text',
     icon: Heart,
-    action: 'sentiment-analysis'
+    action: 'analyze'
+  },
+  {
+    id: 'detailed-analysis',
+    name: 'Detailed Sentiment Analysis',
+    description: 'Perform in-depth sentiment analysis including emotion detection, subjectivity analysis, and aspect-based sentiment',
+    icon: FileBarChart,
+    action: 'detailed-analysis'
   }
 ]; 
