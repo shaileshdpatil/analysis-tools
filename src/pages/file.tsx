@@ -17,7 +17,6 @@ export function File() {
   const analysisOptions = [
     { id: 'basic', name: 'Basic Analysis', icon: FileText, description: 'Word count, character count, and readability metrics' },
     { id: 'advanced', name: 'Advanced Analysis', icon: BarChart2, description: 'Detailed linguistic analysis and keyword extraction' },
-    { id: 'visualization', name: 'Visualization', icon: BarChart2, description: 'Charts and visual representations of content patterns' }
   ] as const;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
