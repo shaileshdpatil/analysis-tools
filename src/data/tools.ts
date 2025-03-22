@@ -185,13 +185,6 @@ export const advancedTools: Tool[] = [
     action: 'tfidf_vectorization'
   },
   {
-    id: 'text_summarization',
-    name: 'Text Summarization',
-    description: 'Generate a concise summary of the text',
-    icon: BookOpen,
-    action: 'text_summarization'
-  },
-  {
     id: 'language_detection',
     name: 'Language Detection',
     description: 'Detect the language of the text',
