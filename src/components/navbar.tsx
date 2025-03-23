@@ -2,6 +2,7 @@ import { FileText, Upload, Search, Menu, X, User, LogOut } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import BhashaShutraLogo from './Logo';
 
 export function Navbar() {
   const location = useLocation();
@@ -22,10 +23,8 @@ export function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center group">
-              <div className="p-2 bg-indigo-600 rounded-lg transform transition-transform group-hover:scale-110">
-                <FileText className="h-6 w-6 text-white" />
-              </div>
-              <span className="ml-3 text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">File Analyzer</span>
+              <BhashaShutraLogo />
+              <span className="ml-3 text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">BhashaShutra</span>
             </Link>
           </div>
           

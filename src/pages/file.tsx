@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Upload, FileText, BarChart2, Check, ChevronRight, AlertCircle } from 'lucide-react';
+import { AnalysisModal } from '../components/analysis-modal';
 
 type AnalysisType = 'basic' | 'advanced' | 'visualization';
 
@@ -10,6 +11,8 @@ export function File() {
   const [isLoading, setIsLoading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fileContent, setFileContent] = useState('');
 
   const analysisOptions = [
     { id: 'basic', name: 'Basic Analysis', icon: FileText, description: 'Word count, character count, and readability metrics' },
@@ -64,17 +67,24 @@ export function File() {
     setIsLoading(true);
     setError(null);
     
-    // Simulate processing
-    setTimeout(() => {
-      console.log('Processing file:', file.name, 'with type:', selectedType);
-      setIsLoading(false);
-      setUploadSuccess(true);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      setFileContent(content || '');
       
-      // Reset success message after 3 seconds
       setTimeout(() => {
-        setUploadSuccess(false);
-      }, 3000);
-    }, 1500);
+        setIsLoading(false);
+        setUploadSuccess(true);
+        setIsModalOpen(true);
+        
+        // Reset success message after 3 seconds
+        setTimeout(() => {
+          setUploadSuccess(false);
+        }, 3000);
+      }, 1500);
+    };
+    
+    reader.readAsText(file);
   };
 
   return (
@@ -82,7 +92,7 @@ export function File() {
       <div className="max-w-3xl mx-auto">
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
           <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-xl leading-6 font-bold text-gray-900">File Analysis</h3>
+            <h3 className="text-xl leading-6 font-bold text-gray-900">BhashaShutra File Analysis</h3>
             <div className="mt-2 max-w-xl text-sm text-gray-500">
               <p>Upload a file and select your preferred analysis method.</p>
             </div>
@@ -232,6 +242,13 @@ export function File() {
           </div>
         </div>
       </div>
+
+      <AnalysisModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        content={fileContent}
+        toolCategory={selectedType as 'basic' | 'advanced' | 'visualization'}
+      />
     </div>
   );
 }

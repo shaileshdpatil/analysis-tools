@@ -1,6 +1,7 @@
 import { FileText, Upload, Zap, ChevronRight, Type, BarChart2, BrainCircuit, Search, Hash, RefreshCw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './home.css'; // Import the CSS file for animations
+import BhashaShutraLogo from '../components/Logo';
 
 export function Home() {
   return (
@@ -13,15 +14,18 @@ export function Home() {
         </div>
         <div className="max-w-7xl mx-auto z-10 px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <h1 className="text-5xl tracking-tight font-extrabold text-white sm:text-6xl md:text-7xl leading-tight">
-                <span className="block">Text Analysis</span>
-                <span className="block text-indigo-200">Redefined</span>
+            <div className="text-center lg:text-left relative">
+              <div className="flex justify-center lg:justify-start mb-6 absolute -top-32">
+                <BhashaShutraLogo width={120} height={120} />
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl tracking-tight font-extrabold text-white leading-none">
+                <span className="block mb-2 animate-slide-up-fade">BhashaShutra</span>
+                <span className="block text-indigo-200 text-2xl md:text-3xl lg:text-4xl animate-slide-up-fade animation-delay-150">Text Analysis Redefined</span>
               </h1>
-              <p className="mt-6 text-xl text-indigo-100 sm:max-w-xl sm:mx-auto lg:mx-0">
+              <p className="mt-4 text-lg md:text-xl text-indigo-100 max-w-xl animate-fade-in animation-delay-300">
                 Powerful text analysis tools to transform, understand, and visualize your content with precision and ease.
               </p>
-              <div className="mt-10 sm:flex justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
+              <div className="mt-8 sm:flex justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
                 <Link to="/file" className="w-full sm:w-auto flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-800 hover:bg-indigo-700 md:text-lg md:px-10 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
                   Analyze File
                   <Upload className="ml-3 h-5 w-5" />
@@ -78,7 +82,7 @@ export function Home() {
           <div className="text-center">
             <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Tool Categories</h2>
             <p className="mt-2 text-4xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-              All-in-One Text Analysis Suite
+              BhashaShutra All-in-One Suite
             </p>
             <p className="mt-4 max-w-3xl text-xl text-gray-500 mx-auto">
               Our comprehensive toolkit offers everything you need for basic and advanced text analysis
@@ -202,7 +206,7 @@ export function Home() {
           <div className="lg:text-center">
             <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Featured Tools</h2>
             <p className="mt-2 text-4xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-              Popular Text Analysis Tools
+              Popular BhashaShutra Tools
             </p>
           </div>
 
@@ -296,7 +300,7 @@ export function Home() {
         <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8 relative">
           <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
             <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              <span className="block mb-2">Ready to analyze your text?</span>
+              <span className="block mb-2">Ready to use BhashaShutra?</span>
               <span className="block text-indigo-200 text-2xl lg:text-3xl font-semibold">Start with file upload or raw text input.</span>
             </h2>
             <div className="mt-10 lg:mt-0 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">

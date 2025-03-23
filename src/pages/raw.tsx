@@ -40,7 +40,7 @@ export function Raw() {
       <div className="max-w-3xl mx-auto">
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
           <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-xl leading-6 font-bold text-gray-900">Content Analysis</h3>
+            <h3 className="text-xl leading-6 font-bold text-gray-900">BhashaShutra Text Analysis</h3>
             <div className="mt-2 max-w-xl text-sm text-gray-500">
               <p>Enter your content and select your preferred analysis method.</p>
             </div>
@@ -180,6 +180,7 @@ export function Raw() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         content={content}
+        toolCategory={selectedType as 'basic' | 'advanced' | 'sentiment' | 'visualization'}
       />
     </div>
   );

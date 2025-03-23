@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { UserPlus, Mail, Lock, User, AlertCircle } from 'lucide-react';
+import BhashaShutraLogo from '../components/Logo';
 
 export function Signup() {
   const [name, setName] = useState('');
@@ -44,11 +45,14 @@ export function Signup() {
       <div className="max-w-md w-full mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden p-8 animate-fade-in-up">
           <div className="text-center mb-8">
+            <div className="flex justify-center mb-4">
+              <BhashaShutraLogo width={60} height={60} />
+            </div>
             <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
-              Create your account
+              Join BhashaShutra
             </h2>
             <p className="mt-3 text-gray-600">
-              Join us to get started
+              Create your account to get started
             </p>
           </div>
           
